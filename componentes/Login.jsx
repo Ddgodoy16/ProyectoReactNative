@@ -66,7 +66,7 @@ export const Login = () => {
         backgroundColor: "#fff",
         justifyContent: 'center', 
         alignItems: 'center', 
-        marginTop: 100,
+        marginTop: 0,
       },
     title: {
       fontSize: 36,
@@ -94,7 +94,7 @@ export const Login = () => {
     },
     whiteSheet: {
       width: '100%',
-      height: '65%',
+      height: '60%',
       position: "absolute",
       bottom: 0,
       left: 0,
@@ -106,7 +106,7 @@ export const Login = () => {
       flex: 1,
       justifyContent: 'center',
       marginHorizontal: 30,
-      marginTop: 150,
+      marginTop: 220,
     },
     button: {
       backgroundColor: '#f57c00',

@@ -7,12 +7,14 @@ import { Tareas } from './Pantallas/Tareas';
 import { Horarios } from './Pantallas/Horarios';
 import { Calendario } from './Pantallas/Calendario';
 import { Eventos } from './Pantallas/Eventos';
+import { Login } from './Login';
 
 const Drawer = createDrawerNavigator();
 
 export function NavegacionGabetero() {
   return (
     <Drawer.Navigator>
+       <Drawer.Screen name="InicioSesion" component={Login} />
         <Drawer.Screen name="Inicio" component={Inicio} />
         <Drawer.Screen name="Asignaturas" component={Asignaturas} />
         <Drawer.Screen name="Horarios" component={Horarios} />
