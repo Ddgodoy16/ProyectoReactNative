@@ -12,9 +12,7 @@ export const Horarios = () => {
     const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 
     const agregarHorario = () => {
-        // Aquí puedes implementar la lógica para agregar el horario
-        // Por ahora, simplemente muestra los valores seleccionados
-        const nuevoHorario = {
+         const nuevoHorario = {
             dia: selectedDay,
             inicio: horaInicio,
             fin: horaFinal,
