@@ -1,28 +1,25 @@
 import 'react-native-gesture-handler';
-import { StyleSheet, View } from 'react-native';
+import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { NavegacionGabetero } from './componentes/Drawer';
-
-
+import { NavegacionGabetero, AuthStack } from './componentes/Drawer';
 
 
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
-       
-       <NavegacionGabetero/> 
-      </NavigationContainer>
-    </View>
+    
+     <NavigationContainer>
+      {isLoggedIn ? <NavegacionGabetero /> : <AuthStack onLoginSuccess={handleLoginSuccess} />}
+    </NavigationContainer>
+
+   
+    
+    
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 0,
-   
-  }
-});

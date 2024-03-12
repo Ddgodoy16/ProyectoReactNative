@@ -1,63 +1,86 @@
-
-import { View, Text, TextInput, SafeAreaView, StyleSheet, StatusBar, Image} from 'react-native';
+import { useState } from 'react';
+import { View, Text, TextInput, SafeAreaView, StyleSheet, StatusBar, Image, Alert} from 'react-native';
 import { Button } from 'react-native';
 
 
 const image = require("../assets/Image.png");
 
+const USUARIO = "godoy@gmail.com"
+const CONTRASENA = "1234"
 
-export const Login = () => {
-    return (
-      <View style={styles.container}>
-        <View >
-            <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: 38,  }}>AGENDA</Text>
-        
-        </View>
-           <Image source={image} style={styles.image} />
-        <View style={styles.whiteSheet} />
-        <SafeAreaView style={styles.form}>
-          <Text style={styles.title}>Log In</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Ingrese su Correo"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            autoFocus={true}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Ingrese su Contrasena"
-            autoCapitalize="none"
-            autoCorrect={false}
-            secureTextEntry={true}
-            textContentType="password"
-          />
-            <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center', alignSelf: 'center',  }}>
-              <Text style={{ color: '#fff', fontWeight: '600', fontSize: 14, paddingEnd: 85, textDecorationLine: 'underline'}}> Olvido Su contrasena?</Text>
-              <Text style={{ color: '#fff', fontWeight: '600', fontSize: 14, textDecorationLine: 'underline' }}> Registarse</Text>
-         
-          </View>
-          <View style={{ marginTop: 20 }}>
-  <Button
-    title="Iniciar Sesion"
-    color="#C4141B"
-  />
+export function Login({navigation}){
   
-</View>   
-<View style={{marginTop: 20}}>
-<Button
-    title="Iniciar sesión con Google"
-    color="#1e90ff"
-    />      
-      
-    </View>    
-        
-        </SafeAreaView>
-        <StatusBar barStyle="light-content" />
+  const [usuario, setUsuario] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const handleUsuarioChange = (text) => {
+    setUsuario (text)
+    }
+    const handlePasswordChange = (text) => {
+      setPassword (text)
+      }
+
+  const handleSubmit = () => {
+    if ( usuario === USUARIO && password === CONTRASENA) {
+        Alert.alert(`Inicio de sesion Exitoso`, `Bienvenido` )
+      navigation.navigate('MenuTareas');
+         
+    } else {
+      Alert.alert(`Error de inicio de sesion`, `Usuario o Contraseña incorrecto ` )   }
+  };
+  
+
+  return (
+    <View style={styles.container}>
+      <View>
+        <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: 38 }}>AGENDA</Text>
       </View>
-    );
-  }
+      <Image source={image} style={styles.image} />
+      <View style={styles.whiteSheet} />
+      <SafeAreaView style={styles.form}>
+        <Text style={styles.title}>Log In</Text>
+         <TextInput
+          style={styles.input}
+          placeholder="Ingrese su Correo"
+          autoCapitalize="none"
+          autoFocus={true}
+          value={usuario}
+          onChangeText={handleUsuarioChange}
+        />
+        <TextInput
+          label='Usuario'
+          style={styles.input}
+          placeholder="Ingrese su Contraseña"
+          autoCapitalize="none"
+          autoCorrect={false}
+          secureTextEntry={true}
+          textContentType="password"
+          value={password}
+          onChangeText={handlePasswordChange}
+        />
+        <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
+          <Text style={{ fontFamily:  'Roboto', color: '#fff', fontWeight: '600', fontSize: 14, paddingEnd: 85, textDecorationLine: 'underline' }}>Olvido su contraseña?</Text>
+          <Text style={{ fontFamily:  'Roboto', color: '#fff', fontWeight: '600', fontSize: 14, textDecorationLine: 'underline' }}>Registrarse</Text>
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <Button
+            title="Iniciar Sesión"
+            color="#C4141B"
+            onPress={handleSubmit}
+          />
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <Button
+            title="Iniciar sesión con Google"
+            color="#1e90ff"
+          />
+        </View>
+      </SafeAreaView>
+      <StatusBar barStyle="light-content" />
+    </View>
+  );
+}
+
   
   const styles = StyleSheet.create({
     container: {
@@ -74,6 +97,7 @@ export const Login = () => {
       color: "#fff",
       alignSelf: "center",
       paddingBottom: 24,
+      fontFamily:  'Roboto',
     },
     input: {
       backgroundColor: "#F6F7FB",
