@@ -1,51 +1,51 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 
 export const Tareas = () => {
     const [showModal, setShowModal] = useState(false);
     const [descripcionTarea, setDescripcionTarea] = useState('');
     const [fechaEntrega, setFechaEntrega] = useState('');
-    const [tareaIngresada, setTareaIngresada] = useState(null); // Nuevo estado para almacenar la tarea ingresada
+    const [tareaIngresada, setTareaIngresada] = useState(null);
 
     const agregarTarea = () => {
         const nuevaTarea = {
             descripcion: descripcionTarea,
             fechaLimite: fechaEntrega,
         };
-        setTareaIngresada(nuevaTarea); // Guardar la tarea ingresada
-        // Luego puedes cerrar el modal
+        setTareaIngresada(nuevaTarea);
         setShowModal(false);
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Tareas</Text>
-            <Button title="Agregar Tarea" onPress={() => setShowModal(true)} />
-            {showModal && (
-                <View style={styles.modal}>
-                    <View style={styles.modalContent}>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Descripción de la tarea"
-                            onChangeText={setDescripcionTarea}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Fecha de entrega"
-                            onChangeText={setFechaEntrega}
-                        />
-                        <Button title="Agregar" onPress={agregarTarea} />
+        <KeyboardAvoidingView style={styles.container}>
+            <View style={styles.container}>
+                <Text style={styles.title}>Tareas</Text>
+                <Button title="Agregar Tarea" onPress={() => setShowModal(true)} />
+                {showModal && (
+                    <View style={styles.modal}>
+                        <View style={styles.modalContent}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Descripción de la tarea"
+                                onChangeText={setDescripcionTarea}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Fecha de entrega"
+                                onChangeText={setFechaEntrega}
+                            />
+                            <Button title="Agregar" onPress={agregarTarea} />
+                        </View>
                     </View>
-                </View>
-            )}
-            {/* Agregar View para mostrar la tarea ingresada */}
-            {tareaIngresada && (
-                <View style={styles.tareaContainer}>
-                    <Text style={styles.texto}>Descripción: {tareaIngresada.descripcion}</Text>
-                    <Text style={styles.texto}>Fecha Límite: {tareaIngresada.fechaLimite}</Text>
-                </View>
-            )}
-        </View>
+                )}
+                {tareaIngresada && (
+                    <View style={styles.tareaContainer}>
+                        <Text style={styles.texto}>Descripción: {tareaIngresada.descripcion}</Text>
+                        <Text style={styles.texto}>Fecha Límite: {tareaIngresada.fechaLimite}</Text>
+                    </View>
+                )}
+            </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -64,16 +64,21 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         bottom: 0,
-        left: 0,
-        right: 0,
+      
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
+        width: '100%', 
+        height: '100%', 
+        zIndex: 1,
     },
     modalContent: {
+        top: 0,
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
+        width: '100%',
+        height: '100%', 
     },
     input: {
         height: 40,
