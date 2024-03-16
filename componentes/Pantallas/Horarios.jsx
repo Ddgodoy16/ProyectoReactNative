@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TextInput, FlatList } from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 export const Horarios = () => {
@@ -25,8 +25,10 @@ export const Horarios = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>HORARIOS</Text>
-            <Button color="#042558" title="Agregar Horario" onPress={() => setShowModal(true)} />
-            {showModal && (
+            <TouchableOpacity style={styles.boton} onPress={() => setShowModal(true)}>
+                <Text style={styles.botonTexto}>Agregar Horarios</Text>
+            </TouchableOpacity>
+              {showModal && (
                 <View style={styles.modal}>
                     <View style={styles.modalContent}>
                         <Picker
@@ -53,8 +55,13 @@ export const Horarios = () => {
                             placeholder="Asignatura"
                             onChangeText={setAsignatura}
                         />
-                        <Button color="#042558"  title="Agregar" onPress={agregarHorario} />
-                    </View>
+                        <TouchableOpacity style={styles.boton} onPress={agregarHorario}>
+              <Text style={styles.botonTexto}>Agregar</Text>
+            </TouchableOpacity>
+                         <TouchableOpacity style={styles.boton} onPress={() => setShowModal(false)}>
+              <Text style={styles.botonTexto}>Cerrar</Text>
+            </TouchableOpacity>
+                            </View>
                 </View>
             )}
             <FlatList
@@ -124,4 +131,17 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
     },
+    boton: {
+        backgroundColor: '#042558',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 15,
+      },
+      botonTexto: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#fff',
+      },
 });

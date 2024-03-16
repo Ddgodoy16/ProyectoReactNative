@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {View, TouchableOpacity,  Text,  Button,  StyleSheet,  TextInput,  Image,  FlatList,  Alert} from 'react-native';
+import {Modal, View, TouchableOpacity, Text, Button, StyleSheet, TextInput, Image, FlatList, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export const Tareas = () => {
@@ -8,22 +8,22 @@ export const Tareas = () => {
   const [fechaEntrega, setFechaEntrega] = useState('');
   const [tareas, setTareas] = useState([]);
   const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
+  const [imagenSeleccionadaParaModal, setImagenSeleccionadaParaModal] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const pickImageAsync = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
+    let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
-
     });
 
-    if (!result.canceled) {
-        setImagenSeleccionada(result.assets[0].uri);
+    if (!result.cancelled) {
+      const uri = result.uri || (result.assets && result.assets.length > 0 && result.assets[0].uri);
+      setImagenSeleccionada(uri);
     } else {
-      Alert.alert(`Error al seleccionar Imagen`, `No selecciono una Imagen` )   
+      Alert.alert('Error', 'No seleccionó una imagen.');
     }
   };
-
-
 
   const agregarTarea = () => {
     const nuevaTarea = {
@@ -38,11 +38,18 @@ export const Tareas = () => {
     setImagenSeleccionada(null);
   };
 
+  const handleImagePress = (imagen) => {
+    setImagenSeleccionadaParaModal(imagen);
+    setIsModalVisible(true);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>TAREAS</Text>
-      <Button color="#042558" title="Agregar Tarea" onPress={() => setShowModal(true)} />
-      {showModal && (
+      <TouchableOpacity style={styles.boton} onPress={() => setShowModal(true)}>
+                <Text style={styles.botonTexto}>Agregar Tarea</Text>
+            </TouchableOpacity>
+        {showModal && (
         <View style={styles.modal}>
           <View style={styles.modalContent}>
             <TextInput
@@ -50,16 +57,15 @@ export const Tareas = () => {
               placeholder="Descripción de la tarea"
               onChangeText={setDescripcionTarea}
             />
-            <TextInput
-              style={styles.input}
-              placeholder="Fecha de entrega"
-              onChangeText={setFechaEntrega}
-            />
+            <TextInput style={styles.input} placeholder="Fecha de entrega" onChangeText={setFechaEntrega} />
             <TouchableOpacity style={styles.boton} onPress={pickImageAsync}>
               <Text style={styles.botonTexto}>Agregar Imagen</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.boton} onPress={agregarTarea}>
               <Text style={styles.botonTexto}>Agregar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.boton} onPress={() => setShowModal(false)}>
+              <Text style={styles.botonTexto}>Cerrar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -71,12 +77,20 @@ export const Tareas = () => {
             <Text style={styles.texto}>Descripción: {item.descripcion}</Text>
             <Text style={styles.texto}>Fecha de Entrega: {item.fechaLimite}</Text>
             {item.imagen && (
-              <Image source={{ uri: item.imagen }} style={{ width: 200, height: 200 }} />
+              <TouchableOpacity onPress={() => handleImagePress(item.imagen)}>
+                <Image source={{ uri: item.imagen }} style={{ width: 200, height: 200 }} />
+              </TouchableOpacity>
             )}
           </View>
         )}
-        keyExtractor={(item) => item.descripcion || item.fechaLimite ||item.imagen}
+        keyExtractor={(item, index) => index.toString()}
       />
+      <Modal visible={isModalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          <Image source={{ uri: imagenSeleccionadaParaModal }} style={styles.modalImage} />
+          <Button title="Cerrar" onPress={() => setIsModalVisible(false)} />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -87,6 +101,14 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
+
+  modalContainer: {
+    top: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+  },
+
   title: {
     fontSize: 30,
     fontWeight: 'bold',
@@ -124,8 +146,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
- 
-
   texto: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -137,12 +157,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 15,
-    
   },
   botonTexto: {
     fontSize: 25,
     fontWeight: 'bold',
     color: '#fff',
   },
-
-});   
+});
