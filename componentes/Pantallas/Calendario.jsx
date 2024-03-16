@@ -3,7 +3,7 @@ import { View, Button, TextInput } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 export const Calendario = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10)); // Convertir a cadena de fecha
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10)); 
   const [searchDate, setSearchDate] = useState('');
 
   const onDayPress = (day) => {

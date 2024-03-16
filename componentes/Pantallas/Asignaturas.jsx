@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather'; // Importa el ícono
+import Icon from 'react-native-vector-icons/Feather'; 
 
 export const Asignaturas = () => {
   const [nuevaAsignatura, setNuevaAsignatura] = useState('');
@@ -21,7 +21,7 @@ export const Asignaturas = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Agregar Asignaturas</Text>
+      <Text style={styles.titulo}>ASIGNATURAS</Text>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}

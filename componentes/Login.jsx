@@ -39,18 +39,20 @@ export function Login({navigation}){
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
         <Text style={styles.title}>Log In</Text>
+        <Text style={{ marginBottom:10,fontFamily:  'Roboto', color: '#fff', fontWeight: '600', fontSize: 18 }}>Ingrese su Correo</Text>
+        
          <TextInput
-          style={styles.input}
-          placeholder="Ingrese su Correo"
+          style={styles.input}         
           autoCapitalize="none"
           autoFocus={true}
           value={usuario}
           onChangeText={handleUsuarioChange}
         />
+         <Text style={{ marginBottom:10, fontFamily:  'Roboto', color: '#fff', fontWeight: '600', fontSize: 18 }}>Ingrese su Contraseña</Text>
+       
         <TextInput
           label='Usuario'
-          style={styles.input}
-          placeholder="Ingrese su Contraseña"
+          style={styles.input}    
           autoCapitalize="none"
           autoCorrect={false}
           secureTextEntry={true}
@@ -69,12 +71,7 @@ export function Login({navigation}){
             onPress={handleSubmit}
           />
         </View>
-        <View style={{ marginTop: 20 }}>
-          <Button
-            title="Iniciar sesión con Google"
-            color="#1e90ff"
-          />
-        </View>
+       
       </SafeAreaView>
       <StatusBar barStyle="light-content" />
     </View>
@@ -101,7 +98,7 @@ export function Login({navigation}){
     },
     input: {
       backgroundColor: "#F6F7FB",
-      height: 58,
+      height: 50,
       width: 300,
       marginBottom: 20,
       fontSize: 16,

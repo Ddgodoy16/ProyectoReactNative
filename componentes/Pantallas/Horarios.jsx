@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 export const Horarios = () => {
@@ -8,25 +8,24 @@ export const Horarios = () => {
     const [horaFinal, setHoraFinal] = useState('');
     const [asignatura, setAsignatura] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [horarioIngresado, setHorarioIngresado] = useState(null); // Nuevo estado para almacenar el horario ingresado
-    const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+    const [horarioIngresado, setHorarioIngresado] = useState([]);
+    const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 
     const agregarHorario = () => {
-         const nuevoHorario = {
+        const nuevoHorario = {
             dia: selectedDay,
             inicio: horaInicio,
             fin: horaFinal,
             asignatura: asignatura,
         };
-        setHorarioIngresado(nuevoHorario); // Guardar el horario ingresado
-        // Luego puedes cerrar el modal
+        setHorarioIngresado([...horarioIngresado, nuevoHorario]);
         setShowModal(false);
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Horarios</Text>
-            <Button title="Agregar Horario" onPress={() => setShowModal(true)} />
+            <Text style={styles.title}>HORARIOS</Text>
+            <Button color="#042558" title="Agregar Horario" onPress={() => setShowModal(true)} />
             {showModal && (
                 <View style={styles.modal}>
                     <View style={styles.modalContent}>
@@ -54,23 +53,22 @@ export const Horarios = () => {
                             placeholder="Asignatura"
                             onChangeText={setAsignatura}
                         />
-                        <Button title="Agregar" onPress={agregarHorario} />
+                        <Button color="#042558"  title="Agregar" onPress={agregarHorario} />
                     </View>
                 </View>
             )}
-            {/* Agregar View para mostrar el horario ingresado */}
-            {horarioIngresado && (
-                <View style={styles.horarioContainer}>
-                    <Text style={styles.texto}>
-                        {horarioIngresado.dia},  
-                    </Text>
-                    <Text style={styles.texto}>
-                    {horarioIngresado.inicio}, {horarioIngresado.fin},  </Text>
-                    <Text style={styles.texto}>
-                    {horarioIngresado.asignatura} </Text>
-               
-                </View>
-            )}
+            <FlatList
+                data={horarioIngresado}
+                renderItem={({ item }) => (
+                    <View style={styles.horarioItem}>
+                        <Text style={styles.texto}>{item.dia}</Text>
+                        <Text style={styles.texto}>{item.inicio}-{item.fin}</Text>
+                        <Text style={styles.texto}>{item.asignatura}</Text>
+                 
+                    </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+            />
         </View>
     );
 };
@@ -82,20 +80,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 20,
+        fontSize: 30,
         fontWeight: 'bold',
         marginBottom: 20,
+        fontFamily: 'Roboto',
     },
     modal: {
         position: 'absolute',
         top: 0,
         bottom: 0,
-      
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%', 
-        height: '100%', 
+        width: '100%',
+        height: '100%',
         zIndex: 1,
     },
     modalContent: {
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         width: '100%',
-        height: '100%', 
+        height: '100%',
     },
     input: {
         height: 40,
@@ -113,14 +111,17 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingHorizontal: 10,
     },
-    horarioContainer: {
-        marginTop: 20,
-        backgroundColor: '#F0F0F0',
+    horarioItem: {
+        backgroundColor: 'lightgrey',
         padding: 10,
         borderRadius: 5,
+        marginBottom: 10,
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 20,
     },
     texto: {
-        fontSize: 16,
+        fontSize: 25,
         fontWeight: 'bold',
     },
 });
